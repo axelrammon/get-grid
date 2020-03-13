@@ -1,7 +1,7 @@
 {
   "name": "grid-create",
   "version": "0.1.0",
-  "homepage": "https://axelrammon.github.io/get-grid",
+  "homepage": "https://axelrammon.github.io/getgrid",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
