@@ -8,14 +8,14 @@ function App() {
   const [ rows, setRows ] = useState(1);
   const [ cgap, setCgap ] = useState(0);
   const [ rgap, setRgap ] = useState(0);
-  const [ divs, setDivs ] = useState();
+  const [ divs, setDivs ] = useState([]);
 
   function handleColumns(e) {
     setColumns(e.target.value);
   }
 
   function handleRows(e) {
-    setRows(e.target.value);
+    setRows(e.target.value);    
   }
 
   function handleCgap(e) {
@@ -28,58 +28,74 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     
+    // const mostrar = 
+    //   ` grid-template-columns: repeat(${columns}, 1fr);
+    //     grid-template-rows: repeat(${rows}, 1fr);
+    //     grid-column-gap: ${cgap}px;
+    //     grid-row-gap: ${rgap}px;
+    //   `
     
-    // const item = <div key={Math.random()}></div>
- 
-    // setDivs([].concat(divs, item));
+    setDivs(divs);
   }
-  const totalDivs = columns * rows;
+  
+  function criarDivs() {
+    
+    let totalDivs = columns * rows;
+
+    for (let i = 0; i < totalDivs; i++) {
+      divs[i] = <div key={Math.random()}></div>;
+      divs.length = totalDivs;
+    }
+    
+    return divs.map(item => item);
+
+  }
 
   const principalStyle = {
 
     gridTemplateColumns: `repeat(${columns}, 1fr)`,
     gridTemplateRows: `repeat(${rows}, 1fr)`,
-
+    gridGap: `${rgap}px ${cgap}px`,
+  
   }
 
   return (
     <div id="container">
-      
-      <div id="cabecalho">
 
+      <div id="cabecalho">
+        <h1>Get Grid CSS</h1>
+        <div id="description">
+        <p>
+          Developed with ☕ by
+          <a href="https://github.com/axelrammon" 
+            target="_blank" rel="noopener noreferrer"> Axel Rammon</a>
+        </p>
+      </div>
       </div>
 
       <div id="conteudo">
         <div style={principalStyle} className="principal">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          {criarDivs(divs)}
         </div>
         <div className="dados">
           <form>
-            <label for="gtc">grid-template-columns:</label> 
-            <input name="gtc" value={columns} onChange={handleColumns} type="number" placeholder="Columns"/><br/>
-            <br/>
-            <label for="gtr">grid-template-rows:</label> 
-            <input name="gtr" value={rows} onChange={handleRows} type="number" placeholder="Rows"/>
+            <label htmlFor="gtc">grid-template-columns:</label> 
+            <input name="gtc" value={columns} onChange={handleColumns} type="number"/>
             <br/><br/>
-            <label for="ggc">grid-gap-colum:</label> 
-            <input name="ggc" value={cgap} onChange={handleCgap} type="number" placeholder="Column gap"/>
+            <label htmlFor="gtr">grid-template-rows:</label> 
+            <input name="gtr" value={rows} onChange={handleRows} type="number"/>
             <br/><br/>
-            <label for="ggr">grid-gap-row:</label> 
-            <input name="ggr" value={rgap} onChange={handleRgap} type="number" placeholder="Row gap"/>
+            <label htmlFor="ggc">grid-gap-colum:</label> 
+            <input name="ggc" value={cgap} onChange={handleCgap} type="number"/>
             <br/><br/>
-            <button onClick={handleSubmit}>Mostrar código</button>
+            <label htmlFor="ggr">grid-gap-row:</label> 
+            <input name="ggr" value={rgap} onChange={handleRgap} type="number"/>
+            <br/><br/>
+            <button onClick={handleSubmit}>Show code</button>
           </form>
         </div>
       </div>
-
-      <div id="footer"></div>
-
     </div>
   );
 }
