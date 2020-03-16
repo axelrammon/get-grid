@@ -9,6 +9,9 @@ function App() {
   const [ cgap, setCgap ] = useState(0);
   const [ rgap, setRgap ] = useState(0);
   const [ divs, setDivs ] = useState([]);
+  let [ mostrar, setMostrar ] = useState({ display: 'none' });
+  let [ inputs, setInputs ] = useState({ display: 'block' });
+  let [ nomeButton, setNomeButton ] = useState('Show code')
 
   function handleColumns(e) {
     setColumns(e.target.value);
@@ -29,14 +32,8 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     
-    // const mostrar = 
-    //   ` grid-template-columns: repeat(${columns}, 1fr);
-    //     grid-template-rows: repeat(${rows}, 1fr);
-    //     grid-column-gap: ${cgap}px;
-    //     grid-row-gap: ${rgap}px;
-    //   `
-    
     setDivs(divs);
+    mostrarCodigo();
   }
   
   function criarDivs() {
@@ -52,7 +49,23 @@ function App() {
 
   }
 
-  const principalStyle = {
+  function mostrarCodigo() {
+    
+    if (mostrar.display === 'none') {
+      setMostrar(mostrar = {display: 'block'});
+      setInputs(inputs = {display: 'none'});
+      setNomeButton('Hide code');
+    } else {
+      setMostrar(mostrar = {display: 'none'});
+      setInputs(inputs = {display: 'block'});
+      setNomeButton('Show code');
+    }
+
+    console.log(mostrar)
+
+  }
+  
+  let principalStyle = {
 
     gridTemplateColumns: `repeat(${columns}, 1fr)`,
     gridTemplateRows: `repeat(${rows}, 1fr)`,
@@ -60,25 +73,51 @@ function App() {
   
   }
 
+  const cores = {
+    gridtemplatecolumns: `grid-template-columns: `,
+    gridtemplatecolumnscode: `repeat(${columns}, 1fr);`,
+  
+    gridtemplaterows: `grid-template-rows: `,
+    gridtemplaterowscode: `repeat(${rows}, 1fr);`,
+    
+    gridgapcolumn: `grid-column-gap: `,
+    gridgapcolumncode: `${cgap}px;`,
+    
+    gridgaprow: `grid-row-gap: `,
+    gridgaprowcode: `${rgap}px;`,
+  
+  }
+
+
   return (
     <div id="container">
 
       <div id="cabecalho">
         <h1>Get Grid CSS</h1>
+        
         <div id="description">
-        <p>
-          Developed with ☕ by
-          <a href="https://github.com/axelrammon" 
-            target="_blank" rel="noopener noreferrer"> Axel Rammon</a>
-        </p>
-      </div>
+          <p>
+            Developed with ☕ by
+            <a href="https://github.com/axelrammon" 
+              target="_blank" rel="noopener noreferrer"> Axel Rammon
+            </a>
+          </p>
+        </div>
       </div>
 
       <div id="conteudo">
         <div style={principalStyle} className="principal">
           {criarDivs(divs)}
         </div>
-        <div className="dados">
+        <div className="codigo" style={mostrar}>
+          <p><span>{cores.gridtemplatecolumns}</span>{cores.gridtemplatecolumnscode}</p>
+          <p><span>{cores.gridtemplaterows}</span>{cores.gridtemplaterowscode}</p>
+          <p><span>{cores.gridgapcolumn}</span>{cores.gridgapcolumncode}</p>
+          <p><span>{cores.gridgaprow}</span>{cores.gridgaprowcode}</p>
+
+          <button onClick={handleSubmit}>{nomeButton}</button>
+        </div>
+        <div className="dados" style={inputs}>
           <form>
             <label htmlFor="gtc">grid-template-columns:</label> 
             <input name="gtc" value={columns} onChange={handleColumns} type="number"/>
@@ -92,7 +131,7 @@ function App() {
             <label htmlFor="ggr">grid-gap-row:</label> 
             <input name="ggr" value={rgap} onChange={handleRgap} type="number"/>
             <br/><br/>
-            <button onClick={handleSubmit}>Show code</button>
+            <button onClick={handleSubmit}>{nomeButton}</button>
           </form>
         </div>
       </div>
